@@ -1,0 +1,36 @@
+Manifest-Version: 1.0
+Bundle-ManifestVersion: 2
+Bundle-Name: JUDO Expression PSM Model Adapter
+Bundle-SymbolicName: hu.blackbelt.judo.meta.expression.model.adapter.psm;singleton:=true
+Bundle-Version: 1.0.1.qualifier
+Bundle-ClassPath: .
+Bundle-Vendor: BlackBelt Technology
+Bundle-Localization: plugin
+Bundle-RequiredExecutionEnvironment: JavaSE-11
+Bundle-ActivationPolicy: lazy
+Automatic-Module-Name: hu.blackbelt.judo.meta.expression.model.adapter.psm
+Import-Package: hu.blackbelt.epsilon.runtime.execution,
+ hu.blackbelt.epsilon.runtime.execution.api,
+ hu.blackbelt.epsilon.runtime.execution.contexts,
+ hu.blackbelt.epsilon.runtime.execution.exceptions,
+ hu.blackbelt.epsilon.runtime.execution.model.emf,
+ hu.blackbelt.judo.meta.psm.runtime,
+ hu.blackbelt.judo.meta.expression,
+ hu.blackbelt.judo.meta.expression.adapters,
+ hu.blackbelt.judo.meta.expression.adapters.measure,
+ hu.blackbelt.judo.meta.expression.constant,
+ hu.blackbelt.judo.meta.expression.numeric,
+ hu.blackbelt.judo.meta.expression.runtime,
+ hu.blackbelt.judo.meta.expression.util.builder,
+ hu.blackbelt.judo.meta.expression.variable,
+ hu.blackbelt.judo.meta.measure,
+ hu.blackbelt.judo.meta.measure.runtime,
+ org.eclipse.emf.common.notify,
+ org.eclipse.emf.ecore,
+ org.eclipse.emf.ecore.resource,
+ org.eclipse.emf.ecore.util,
+ org.eclipse.epsilon.common.util,
+ org.slf4j;version="1.7.2"
+Export-Package: hu.blackbelt.judo.meta.expression.adapters.psm
+Require-Bundle: org.eclipse.emf.ecore,
+ org.eclipse.emf.common

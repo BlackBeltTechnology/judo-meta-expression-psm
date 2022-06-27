@@ -1,0 +1,22 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<site>
+   <description>
+      To install these features, point Eclipse at this site.
+   </description>
+   <feature id="hu.blackbelt.judo.meta.expression.adapter.psm.feature.source">
+      <category name="psm_adapters_source"/>
+   </feature>
+   <feature id="hu.blackbelt.judo.meta.expression.adapter.psm.feature">
+      <category name="psm_adapter"/>
+   </feature>
+   <category-def name="psm_adapter" label="JUDO Expression PSM Adapter">
+      <description>
+         JUDO Expression Model PSM adapters
+      </description>
+   </category-def>
+   <category-def name="psm_adapters_source" label="JUDO Expression PSM Adapter Source">
+      <description>
+         Judo Expression Model adapters for other metamodels source
+      </description>
+   </category-def>
+</site>
