@@ -92,7 +92,7 @@
         <pax-exam-version>4.13.4</pax-exam-version>
 
 		<judo-meta-expression-version>1.0.2.20221003_151739_58a45ea4_develop</judo-meta-expression-version>
-        <judo-meta-psm-version>1.2.2.20221004_192329_f858d0d4_feature_JNG_3834_TestCI</judo-meta-psm-version>
+        <judo-meta-psm-version>1.2.2.20221004_203608_d0e7e901_feature_JNG_3834_TestCI</judo-meta-psm-version>
         <judo-meta-jql-version>1.0.2.20221003_151639_45e97d16_develop</judo-meta-jql-version>
         <judo-meta-measure-version>1.0.1.20220921_224938_dbd1c8fa_develop</judo-meta-measure-version>
 
