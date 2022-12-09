@@ -1,6 +1,6 @@
 <?xml version="1.0" encoding="UTF-8" standalone="no"?>
 <?pde?>
-<target includeMode="feature" name="hu.blackbelt.judo.meta.expression.psm.targetdefinition.target" sequenceNumber="1670345906933">
+<target includeMode="feature" name="hu.blackbelt.judo.meta.expression.psm.targetdefinition.target" sequenceNumber="1670559263058">
   <locations>
 
     <location includeAllPlatforms="false" includeConfigurePhase="true" includeMode="planner" includeSource="true" type="InstallableUnit">
@@ -26,7 +26,7 @@
     </location>
 
     <location includeAllPlatforms="false" includeConfigurePhase="true" includeMode="planner" includeSource="true" type="InstallableUnit">
-      <repository location="https://nexus.judo.technology/repository/p2/judo-meta-psm/1.2.4.20221130_085646_6f692229_develop"/>
+      <repository location="https://nexus.judo.technology/repository/p2/judo-meta-psm/1.2.4.20221208_130618_fd953c86_develop"/>
       <unit id="hu.blackbelt.judo.meta.psm.feature.feature.group" version="0.0.0"/>
     </location>
     <location includeAllPlatforms="false" includeConfigurePhase="true" includeMode="planner" includeSource="true" type="InstallableUnit">
