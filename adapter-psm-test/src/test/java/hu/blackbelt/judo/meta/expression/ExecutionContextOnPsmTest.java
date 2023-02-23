@@ -57,7 +57,7 @@ public class ExecutionContextOnPsmTest {
 
     public void setUp() throws Exception {
 
-        psmModel = buildPsmModel().name("test").build();
+        psmModel = buildPsmModel().build();
         populatePsmModel();
         
         log.info(psmModel.getDiagnosticsAsString());
