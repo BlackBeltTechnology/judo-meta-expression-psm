@@ -9,13 +9,13 @@ package hu.blackbelt.judo.meta.expression.adapters.psm;
  * This program and the accompanying materials are made available under the
  * terms of the Eclipse Public License 2.0 which is available at
  * http://www.eclipse.org/legal/epl-2.0.
- * 
+ *
  * This Source Code may also be made available under the following Secondary
  * Licenses when the conditions for such availability set forth in the Eclipse
  * Public License, v. 2.0 are satisfied: GNU General Public License, version 2
  * with the GNU Classpath Exception which is
  * available at https://www.gnu.org/software/classpath/license.html.
- * 
+ *
  * SPDX-License-Identifier: EPL-2.0 OR GPL-2.0 WITH Classpath-exception-2.0
  * #L%
  */
@@ -81,14 +81,14 @@ public class PsmModelAdapterTest extends ExecutionContextOnPsmTest{
     private ModelAdapter<NamespaceElement, Primitive, EnumerationType, EntityType, PrimitiveTypedElement, ReferenceTypedElement, TransferObjectType, TransferAttribute, TransferObjectRelation, Sequence, Measure, Unit> modelAdapter;
 
     private static final Logger logger = LoggerFactory.getLogger(PsmModelAdapterTest.class);
-    
+
     @BeforeEach
     public void setUp() throws Exception {
 
-    	super.setUp();
+        super.setUp();
         modelAdapter = new PsmModelAdapter(psmModel.getResourceSet(), psmModel.getResourceSet());
     }
-    
+
     @AfterEach
     public void tearDown() {
         modelAdapter = null;
@@ -354,7 +354,7 @@ public class PsmModelAdapterTest extends ExecutionContextOnPsmTest{
         return StreamSupport.stream(psmContents.spliterator(), true)
                 .filter(e -> clazz.isAssignableFrom(e.getClass())).map(e -> (T) e);
     }
-    
+
     <T> Stream<T> getMeasureElement(final Class<T> clazz) {
         final Iterable<Notifier> measureContents = psmModel.getResourceSet()::getAllContents;
         return StreamSupport.stream(measureContents.spliterator(), true)
