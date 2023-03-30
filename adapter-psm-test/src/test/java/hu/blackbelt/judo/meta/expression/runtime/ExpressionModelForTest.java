@@ -62,7 +62,7 @@ import hu.blackbelt.judo.meta.expression.operator.DecimalAggregator;
 import hu.blackbelt.judo.meta.expression.operator.DecimalOperator;
 import hu.blackbelt.judo.meta.expression.operator.LogicalOperator;
 import hu.blackbelt.judo.meta.expression.operator.NumericComparator;
-import hu.blackbelt.judo.meta.expression.operator.ObjectComparator;
+import hu.blackbelt.judo.meta.expression.operator.EnumerationComparator;
 import hu.blackbelt.judo.meta.expression.operator.StringComparator;
 import hu.blackbelt.judo.meta.expression.operator.TemporalOperator;
 import hu.blackbelt.judo.meta.expression.string.StringAttribute;
@@ -187,7 +187,7 @@ public class ExpressionModelForTest {
                                                 .build())
                                         .withPattern(newStringConstantBuilder().withValue("11%").build())
                                         .build())
-                                .withRight(newEnumerationComparisonBuilder().withOperator(ObjectComparator.EQUAL)
+                                .withRight(newEnumerationComparisonBuilder().withOperator(EnumerationComparator.EQUAL)
                                         .withLeft(newEnumerationAttributeBuilder().withAttributeName("country")
                                                 .withObjectExpression(newCastObjectBuilder().withElementName(intAddress)
                                                         .withObjectExpression(newObjectSelectorExpressionBuilder()
