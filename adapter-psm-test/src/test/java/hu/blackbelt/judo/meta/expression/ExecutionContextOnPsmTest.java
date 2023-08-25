@@ -21,7 +21,7 @@ package hu.blackbelt.judo.meta.expression;
  */
 
 import com.google.common.collect.ImmutableList;
-import hu.blackbelt.epsilon.runtime.execution.api.Log;
+import org.slf4j.Logger;
 import hu.blackbelt.epsilon.runtime.execution.exceptions.EvlScriptExecutionException;
 import hu.blackbelt.epsilon.runtime.execution.impl.BufferedSlf4jLogger;
 import hu.blackbelt.judo.meta.expression.runtime.ExpressionModel;
@@ -311,7 +311,7 @@ public class ExecutionContextOnPsmTest {
     }
 
     private void runEpsilon() throws Exception {
-        try (Log bufferedLog = new BufferedSlf4jLogger(log)) {
+        try (BufferedSlf4jLogger bufferedLog = new BufferedSlf4jLogger(log)) {
             PsmEpsilonValidator.validatePsm(bufferedLog,
                     psmModel,
                     PsmEpsilonValidator.calculatePsmValidationScriptURI(),
