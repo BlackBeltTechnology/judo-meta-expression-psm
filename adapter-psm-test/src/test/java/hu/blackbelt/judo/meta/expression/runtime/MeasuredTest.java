@@ -20,7 +20,7 @@ package hu.blackbelt.judo.meta.expression.runtime;
  * #L%
  */
 
-import hu.blackbelt.epsilon.runtime.execution.api.Log;
+import org.slf4j.Logger;
 import hu.blackbelt.epsilon.runtime.execution.impl.BufferedSlf4jLogger;
 import hu.blackbelt.judo.meta.expression.ExecutionContextOnPsmTest;
 import hu.blackbelt.judo.meta.expression.operator.DecimalOperator;
@@ -83,7 +83,7 @@ public class MeasuredTest extends ExecutionContextOnPsmTest {
 
     @Test
     void testAdditionOfMeasuredConstants() throws Exception {
-        try (Log bufferedLog = new BufferedSlf4jLogger(log)) {
+        try (BufferedSlf4jLogger bufferedLog = new BufferedSlf4jLogger(log)) {
             validateExpressionOnPsm(bufferedLog,
                                     psmModel, expressionModel,
                                     calculateExpressionValidationScriptURI(),

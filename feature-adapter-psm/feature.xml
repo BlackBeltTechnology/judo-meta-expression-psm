@@ -304,6 +304,8 @@
       <import plugin="com.google.guava"/>
       <import plugin="org.slf4j.api"/>
       <import plugin="org.eclipse.emf.common"/>
+      <import plugin="hu.blackbelt.epsilon.runtime-execution"/>
+      <import plugin="hu.blackbelt.epsilon.runtime-utils"/>
       <import plugin="hu.blackbelt.judo.meta.expression.model"/>
       <import plugin="hu.blackbelt.judo.meta.psm.model"/>
       <import plugin="hu.blackbelt.judo.meta.expression.model.adapter.measure"/>
