@@ -21,7 +21,7 @@ package hu.blackbelt.judo.meta.expression.adapters.psm;
  */
 
 import hu.blackbelt.epsilon.runtime.execution.ExecutionContext;
-import hu.blackbelt.epsilon.runtime.execution.api.Log;
+import org.slf4j.Logger;
 import hu.blackbelt.epsilon.runtime.execution.exceptions.ScriptExecutionException;
 import hu.blackbelt.judo.meta.expression.runtime.ExpressionEpsilonValidator;
 import hu.blackbelt.judo.meta.expression.runtime.ExpressionEvaluator;
@@ -43,12 +43,12 @@ import static java.util.Collections.emptyList;
 
 public class ExpressionEpsilonValidatorOnPsm extends ExpressionEpsilonValidator {
 
-    public static void validateExpressionOnPsm(Log log, PsmModel psmModel, ExpressionModel expressionModel, URI scriptRoot)
+    public static void validateExpressionOnPsm(Logger log, PsmModel psmModel, ExpressionModel expressionModel, URI scriptRoot)
             throws ScriptExecutionException, URISyntaxException {
         validateExpressionOnPsm(log, psmModel, expressionModel, scriptRoot, emptyList(), emptyList());
     }
 
-    public static void validateExpressionOnPsm(Log log, PsmModel psmModel, ExpressionModel expressionModel, URI scriptRoot,
+    public static void validateExpressionOnPsm(Logger log, PsmModel psmModel, ExpressionModel expressionModel, URI scriptRoot,
                                                Collection<String> expectedErrors, Collection<String> expectedWarnings)
             throws ScriptExecutionException, URISyntaxException {
 
