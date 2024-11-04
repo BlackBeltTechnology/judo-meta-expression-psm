@@ -76,6 +76,7 @@
         <maven.compiler.source>17</maven.compiler.source>
         <maven.compiler.target>17</maven.compiler.target>
         <tycho-version>4.0.9</tycho-version>
+        <lombok-version>1.18.34</lombok-version>
 
         <emf-genmodel-generator-version>1.1.1.20240410_065331_3400dfa6_develop</emf-genmodel-generator-version>
         <judo-genmodel-generator-version>1.1.2.20240410_075618_a6090f79_develop</judo-genmodel-generator-version>
@@ -770,7 +771,7 @@
         <dependency>
             <groupId>org.projectlombok</groupId>
             <artifactId>lombok</artifactId>
-            <version>1.18.24</version>
+            <version>${lombok-version}</version>
         </dependency>
 
         <dependency>
