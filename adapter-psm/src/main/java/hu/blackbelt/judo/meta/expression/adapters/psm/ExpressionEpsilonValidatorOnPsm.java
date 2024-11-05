@@ -66,18 +66,21 @@ public class ExpressionEpsilonValidatorOnPsm extends ExpressionEpsilonValidator 
                                 .name("PSM")
                                 .resource(psmModel.getResource())
                                 .validateModel(false)
+                                .useCache(true)
                                 .build(),
                         wrappedEmfModelContextBuilder()
                                 .log(log)
                                 .name("MEASURES")
                                 .resource(psmModel.getResource())
                                 .validateModel(false)
+                                .useCache(true)
                                 .build(),
                         wrappedEmfModelContextBuilder()
                                 .log(log)
                                 .name("EXPR")
                                 .resource(expressionModel.getResource())
                                 .validateModel(false)
+                                .useCache(true)
                                 .build()))
                 .injectContexts(injections)
                 .build();
