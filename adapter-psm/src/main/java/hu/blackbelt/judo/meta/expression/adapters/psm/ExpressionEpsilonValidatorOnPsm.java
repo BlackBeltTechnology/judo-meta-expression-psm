@@ -51,6 +51,13 @@ public class ExpressionEpsilonValidatorOnPsm extends ExpressionEpsilonValidator 
     public static void validateExpressionOnPsm(Logger log, PsmModel psmModel, ExpressionModel expressionModel, URI scriptRoot,
                                                Collection<String> expectedErrors, Collection<String> expectedWarnings)
             throws ScriptExecutionException, URISyntaxException {
+        validateExpressionOnPsm(log, psmModel, expressionModel,scriptRoot, expectedErrors, expectedWarnings, false);
+
+    }
+
+    public static void validateExpressionOnPsm(Logger log, PsmModel psmModel, ExpressionModel expressionModel, URI scriptRoot,
+                                               Collection<String> expectedErrors, Collection<String> expectedWarnings, Boolean useCache)
+            throws ScriptExecutionException, URISyntaxException {
 
         final Map<String, Object> injections = new HashMap<>();
         injections.put("evaluator", new ExpressionEvaluator());
@@ -66,21 +73,21 @@ public class ExpressionEpsilonValidatorOnPsm extends ExpressionEpsilonValidator 
                                 .name("PSM")
                                 .resource(psmModel.getResource())
                                 .validateModel(false)
-                                .useCache(true)
+                                .useCache(useCache)
                                 .build(),
                         wrappedEmfModelContextBuilder()
                                 .log(log)
                                 .name("MEASURES")
                                 .resource(psmModel.getResource())
                                 .validateModel(false)
-                                .useCache(true)
+                                .useCache(useCache)
                                 .build(),
                         wrappedEmfModelContextBuilder()
                                 .log(log)
                                 .name("EXPR")
                                 .resource(expressionModel.getResource())
                                 .validateModel(false)
-                                .useCache(true)
+                                .useCache(useCache)
                                 .build()))
                 .injectContexts(injections)
                 .build();
@@ -91,9 +98,9 @@ public class ExpressionEpsilonValidatorOnPsm extends ExpressionEpsilonValidator 
 
             // Transformation script
             executionContext
-                    .executeProgram(evlExecutionContextBuilder().source(UriUtil.resolve("expression.evl", scriptRoot))
-                            // TODO: https://github.com/eclipse/epsilon/issues/133
-                            .parallel(false)
+                    .executeProgram(evlExecutionContextBuilder()
+                            .source(UriUtil.resolve("expression.evl", scriptRoot))
+                            .parallel(true)
                             .expectedErrors(expectedErrors).expectedWarnings(expectedWarnings).build());
 
         } finally {
