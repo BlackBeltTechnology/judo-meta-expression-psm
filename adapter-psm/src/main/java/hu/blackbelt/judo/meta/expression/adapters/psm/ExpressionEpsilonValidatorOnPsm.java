@@ -51,7 +51,7 @@ public class ExpressionEpsilonValidatorOnPsm extends ExpressionEpsilonValidator 
     public static void validateExpressionOnPsm(Logger log, PsmModel psmModel, ExpressionModel expressionModel, URI scriptRoot,
                                                Collection<String> expectedErrors, Collection<String> expectedWarnings)
             throws ScriptExecutionException, URISyntaxException {
-        validateExpressionOnPsm(log, psmModel, expressionModel,scriptRoot, expectedErrors, expectedWarnings, false);
+        validateExpressionOnPsm(log, psmModel, expressionModel,scriptRoot, expectedErrors, expectedWarnings, true);
 
     }
 
