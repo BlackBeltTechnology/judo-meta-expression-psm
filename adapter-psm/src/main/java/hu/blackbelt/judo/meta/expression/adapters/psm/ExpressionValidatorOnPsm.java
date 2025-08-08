@@ -21,11 +21,11 @@ package hu.blackbelt.judo.meta.expression.adapters.psm;
  */
 
 import hu.blackbelt.judo.meta.expression.runtime.ExpressionValidationException;
+import hu.blackbelt.judo.meta.expression.runtime.ExpressionValidator;
 import org.slf4j.Logger;
 import hu.blackbelt.judo.meta.expression.runtime.ExpressionModel;
 import hu.blackbelt.judo.meta.psm.runtime.PsmModel;
 
-import java.net.URISyntaxException;
 import java.util.Collection;
 
 import static java.util.Collections.emptyList;
@@ -40,59 +40,8 @@ public class ExpressionValidatorOnPsm {
     public static void validateExpressionOnPsm(Logger log, PsmModel psmModel, ExpressionModel expressionModel,
                                                Collection<String> expectedErrors, Collection<String> expectedWarnings)
             throws ExpressionValidationException {
-
-        /*
-        final Map<String, Object> injections = new HashMap<>();
-        injections.put("evaluator", new ExpressionEvaluator());
-        injections.put("modelAdapter", new PsmModelAdapter(psmModel.getResourceSet(), psmModel.getResourceSet()));
-
-        ExecutionContext executionContext = executionContextBuilder()
-                .log(log)
-                .resourceSet(psmModel.getResourceSet())
-                .metaModels(emptyList())
-                .modelContexts(Arrays.asList(
-                        wrappedEmfModelContextBuilder()
-                                .log(log)
-                                .name("PSM")
-                                .resource(psmModel.getResource())
-                                .validateModel(false)
-                                .useCache(useCache)
-                                .build(),
-                        wrappedEmfModelContextBuilder()
-                                .log(log)
-                                .name("MEASURES")
-                                .resource(psmModel.getResource())
-                                .validateModel(false)
-                                .useCache(useCache)
-                                .build(),
-                        wrappedEmfModelContextBuilder()
-                                .log(log)
-                                .name("EXPR")
-                                .resource(expressionModel.getResource())
-                                .validateModel(false)
-                                .useCache(useCache)
-                                .build()))
-                .injectContexts(injections)
-                .build();
-
-        try {
-            // run the model / metadata loading
-            executionContext.load();
-
-            // Transformation script
-            executionContext
-                    .executeProgram(evlExecutionContextBuilder()
-                            .source(UriUtil.resolve("expression.evl", scriptRoot))
-                            .parallel(true)
-                            .expectedErrors(expectedErrors).expectedWarnings(expectedWarnings).build());
-
-        } finally {
-            executionContext.commit();
-            try {
-                executionContext.close();
-            } catch (Exception e) {
-            }
-        }
-        */
+        ExpressionValidator.validateExpression(log, expressionModel,
+                new PsmModelAdapter(psmModel.getResourceSet(), psmModel.getResourceSet()),
+                expectedErrors, expectedWarnings);
     }
 }
