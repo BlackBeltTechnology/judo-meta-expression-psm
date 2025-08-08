@@ -20,7 +20,6 @@ package hu.blackbelt.judo.meta.expression.runtime;
  * #L%
  */
 
-import org.slf4j.Logger;
 import hu.blackbelt.epsilon.runtime.execution.impl.BufferedSlf4jLogger;
 import hu.blackbelt.judo.meta.expression.ExecutionContextOnPsmTest;
 import hu.blackbelt.judo.meta.expression.support.ExpressionModelResourceSupport;
@@ -29,8 +28,7 @@ import org.eclipse.emf.common.util.URI;
 import org.junit.jupiter.api.BeforeEach;
 import org.junit.jupiter.api.Test;
 
-import static hu.blackbelt.judo.meta.expression.adapters.psm.ExpressionEpsilonValidatorOnPsm.validateExpressionOnPsm;
-import static hu.blackbelt.judo.meta.expression.runtime.ExpressionEpsilonValidator.calculateExpressionValidationScriptURI;
+import static hu.blackbelt.judo.meta.expression.adapters.psm.ExpressionValidatorOnPsm.validateExpressionOnPsm;
 import static org.junit.jupiter.api.Assertions.assertTrue;
 
 @Slf4j
@@ -56,7 +54,7 @@ class MinimalPsmTest extends ExecutionContextOnPsmTest {
     @Test
     void test() throws Exception {
         try (BufferedSlf4jLogger bufferedLog = new BufferedSlf4jLogger(log)) {
-            validateExpressionOnPsm(bufferedLog, psmModel, expressionModel, calculateExpressionValidationScriptURI());
+            validateExpressionOnPsm(bufferedLog, psmModel, expressionModel);
         }
     }
 }
