@@ -20,8 +20,6 @@ package hu.blackbelt.judo.meta.expression.runtime;
  * #L%
  */
 
-import hu.blackbelt.epsilon.runtime.execution.exceptions.ScriptExecutionException;
-import hu.blackbelt.epsilon.runtime.execution.impl.BufferedSlf4jLogger;
 import hu.blackbelt.judo.meta.expression.*;
 import hu.blackbelt.judo.meta.expression.constant.Instance;
 import lombok.extern.slf4j.Slf4j;
@@ -73,11 +71,9 @@ public class IllegalPsmTest extends ExecutionContextOnPsmTest {
 
     @Test
     void test() throws Exception {
-        try (BufferedSlf4jLogger bufferedLog = new BufferedSlf4jLogger(log)) {
             assertThrows(
-                    ScriptExecutionException.class,
-                    () -> validateExpressionOnPsm(bufferedLog, psmModel, expressionModel)
+                    ExpressionValidationException.class,
+                    () -> validateExpressionOnPsm(log, psmModel, expressionModel)
             );
-        }
     }
 }

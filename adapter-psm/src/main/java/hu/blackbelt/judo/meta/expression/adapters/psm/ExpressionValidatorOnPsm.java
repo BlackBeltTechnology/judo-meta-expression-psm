@@ -42,6 +42,7 @@ public class ExpressionValidatorOnPsm {
             throws ExpressionValidationException {
         ExpressionValidator.validateExpression(log, expressionModel,
                 new PsmModelAdapter(psmModel.getResourceSet(), psmModel.getResourceSet()),
+                "PSM", psmModel.getResource(), "MEASURES", psmModel.getResource(),
                 expectedErrors, expectedWarnings);
     }
 }
