@@ -2,7 +2,7 @@ package hu.blackbelt.judo.meta.expression.psm.osgi.itest;
 
 /*-
  * #%L
- * JUDO :: Expression :: Model
+ * JUDO :: Expression :: Model :: PSM
  * %%
  * Copyright (C) 2018 - 2022 BlackBelt Technology
  * %%

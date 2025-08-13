@@ -2,7 +2,7 @@ package hu.blackbelt.judo.meta.expression.psm.osgi.itest;
 
 /*-
  * #%L
- * JUDO :: Expression :: Model
+ * JUDO :: Expression :: Model :: PSM
  * %%
  * Copyright (C) 2018 - 2022 BlackBelt Technology
  * %%
@@ -21,8 +21,10 @@ package hu.blackbelt.judo.meta.expression.psm.osgi.itest;
  */
 
 import com.google.common.collect.ImmutableList;
+import hu.blackbelt.judo.meta.expression.operator.DecimalOperator;
 import hu.blackbelt.judo.meta.expression.runtime.ExpressionModel;
 import hu.blackbelt.judo.meta.expression.runtime.ExpressionModel.ExpressionValidationException;
+import hu.blackbelt.judo.meta.expression.support.ExpressionModelResourceSupport;
 import hu.blackbelt.judo.meta.psm.data.AssociationEnd;
 import hu.blackbelt.judo.meta.psm.data.Containment;
 import hu.blackbelt.judo.meta.psm.data.EntityType;
@@ -40,6 +42,7 @@ import hu.blackbelt.judo.meta.psm.type.Primitive;
 import hu.blackbelt.osgi.utils.osgi.api.BundleTrackerManager;
 import lombok.extern.slf4j.Slf4j;
 import org.eclipse.emf.common.notify.Notifier;
+import org.eclipse.emf.common.util.URI;
 import org.junit.Test;
 import org.junit.runner.RunWith;
 import org.ops4j.pax.exam.Configuration;
@@ -51,10 +54,14 @@ import org.osgi.framework.*;
 
 import javax.inject.Inject;
 import java.io.*;
+import java.math.BigDecimal;
 import java.util.stream.Stream;
 import java.util.stream.StreamSupport;
 
 import static hu.blackbelt.judo.meta.expression.adapters.psm.ExpressionValidatorOnPsm.validateExpressionOnPsm;
+import static hu.blackbelt.judo.meta.expression.constant.util.builder.ConstantBuilders.newDecimalConstantBuilder;
+import static hu.blackbelt.judo.meta.expression.constant.util.builder.ConstantBuilders.newMeasuredDecimalBuilder;
+import static hu.blackbelt.judo.meta.expression.numeric.util.builder.NumericBuilders.newDecimalArithmeticExpressionBuilder;
 import static hu.blackbelt.judo.meta.expression.psm.osgi.itest.KarafFeatureProvider.karafConfig;
 import static hu.blackbelt.judo.meta.expression.runtime.ExpressionModel.buildExpressionModel;
 import static hu.blackbelt.judo.meta.psm.data.util.builder.DataBuilders.*;
@@ -109,12 +116,6 @@ public class ExpressionWithPSMAdapterBundleITest {
                         .artifactId(HU_BLACKBELT_JUDO_META_EXPRESSION_OSGI)
                         .versionAsInProject()),
 
-        /*
-                mavenBundle(maven()
-                        .groupId(HU_BLACKBELT_JUDO_META)
-                        .artifactId(HU_BLACKBELT_JUDO_META_ASM_OSGI)
-                        .versionAsInProject()),
-        */
                 mavenBundle(maven()
                         .groupId(HU_BLACKBELT_JUDO_META)
                         .artifactId(HU_BLACKBELT_JUDO_META_PSM_OSGI)
@@ -125,12 +126,6 @@ public class ExpressionWithPSMAdapterBundleITest {
                         .artifactId(HU_BLACKBELT_JUDO_META_MEASURE_OSGI)
                         .versionAsInProject()),
 
-                /*
-                mavenBundle(maven()
-                        .groupId(HU_BLACKBELT_JUDO_META)
-                        .artifactId(HU_BLACKBELT_JUDO_META_EXPRESSION_MODEL_ADAPTER_ASM)
-                        .versionAsInProject()),
-                */
                 mavenBundle(maven()
                         .groupId(HU_BLACKBELT_JUDO_META)
                         .artifactId(HU_BLACKBELT_JUDO_META_EXPRESSION_MODEL_ADAPTER_PSM)
@@ -151,12 +146,6 @@ public class ExpressionWithPSMAdapterBundleITest {
         assertEquals(Bundle.ACTIVE, getBundle(bundleContext, HU_BLACKBELT_JUDO_META_EXPRESSION_OSGI)
                 .getState());
 
-        /*
-        assertNotNull(getBundle(bundleContext, HU_BLACKBELT_JUDO_META_ASM_OSGI));
-        assertEquals(Bundle.ACTIVE, getBundle(bundleContext, HU_BLACKBELT_JUDO_META_ASM_OSGI)
-                .getState());
-        */
-
         assertNotNull(getBundle(bundleContext, HU_BLACKBELT_JUDO_META_PSM_OSGI));
         assertEquals(Bundle.ACTIVE, getBundle(bundleContext, HU_BLACKBELT_JUDO_META_PSM_OSGI)
                 .getState());
@@ -164,12 +153,6 @@ public class ExpressionWithPSMAdapterBundleITest {
         assertNotNull(getBundle(bundleContext, HU_BLACKBELT_JUDO_META_MEASURE_OSGI));
         assertEquals(Bundle.ACTIVE, getBundle(bundleContext, HU_BLACKBELT_JUDO_META_MEASURE_OSGI)
                 .getState());
-
-        /*
-        assertNotNull(getBundle(bundleContext, HU_BLACKBELT_JUDO_META_EXPRESSION_MODEL_ADAPTER_ASM));
-        assertEquals(Bundle.ACTIVE, getBundle(bundleContext, HU_BLACKBELT_JUDO_META_EXPRESSION_MODEL_ADAPTER_ASM)
-                .getState());
-        */
 
         assertNotNull(getBundle(bundleContext, HU_BLACKBELT_JUDO_META_EXPRESSION_MODEL_ADAPTER_PSM));
         assertEquals(Bundle.ACTIVE, getBundle(bundleContext, HU_BLACKBELT_JUDO_META_EXPRESSION_MODEL_ADAPTER_PSM)
@@ -190,7 +173,7 @@ public class ExpressionWithPSMAdapterBundleITest {
 
     private InputStream getPsmModelBundle() throws IOException, PsmValidationException {
 
-        PsmModel psmModel = buildPsmModel()
+        psmModel = buildPsmModel()
                 .build();
 
         populatePsmModel(psmModel);
@@ -210,9 +193,11 @@ public class ExpressionWithPSMAdapterBundleITest {
 
     private InputStream getExpressionModelBundle() throws IOException, ExpressionValidationException {
 
-        ExpressionModel expressionModel = buildExpressionModel()
+        expressionModel = buildExpressionModel()
                 .name(DEMO_EXPRESSION)
                 .build();
+
+        populateExpressionModel(expressionModel);
 
         ByteArrayOutputStream os = new ByteArrayOutputStream();
 
@@ -482,4 +467,31 @@ public class ExpressionWithPSMAdapterBundleITest {
         useModel(model).withPackages(entities,types).build();
     }
 
+    public void populateExpressionModel(ExpressionModel model) {
+        ExpressionModelResourceSupport expressionModelResourceSupport = expressionModel.getExpressionModelResourceSupport();
+        expressionModelResourceSupport.addContent(newDecimalArithmeticExpressionBuilder()
+                .withLeft(newMeasuredDecimalBuilder().withValue(BigDecimal.ONE).withUnitName("kg").build())
+                .withOperator(DecimalOperator.ADD)
+                .withRight(newDecimalConstantBuilder().withValue(BigDecimal.TEN).build())
+                .build());
+
+        expressionModelResourceSupport.addContent(newDecimalArithmeticExpressionBuilder()
+                .withLeft(newMeasuredDecimalBuilder().withValue(BigDecimal.ONE).withUnitName("kg").build())
+                .withOperator(DecimalOperator.MULTIPLY)
+                .withRight(newDecimalConstantBuilder().withValue(BigDecimal.TEN).build())
+                .build());
+
+        expressionModelResourceSupport.addContent(newDecimalArithmeticExpressionBuilder()
+                .withLeft(newMeasuredDecimalBuilder().withValue(BigDecimal.ONE).withUnitName("cm").build())
+                .withOperator(DecimalOperator.ADD)
+                .withRight(newMeasuredDecimalBuilder().withValue(BigDecimal.TEN).withUnitName("m").build())
+                .build());
+
+        expressionModelResourceSupport.addContent(newDecimalArithmeticExpressionBuilder()
+                .withLeft(newDecimalConstantBuilder().withValue(BigDecimal.ONE).build())
+                .withOperator(DecimalOperator.ADD)
+                .withRight(newDecimalConstantBuilder().withValue(BigDecimal.TEN).build())
+                .build());
+
+    }
 }
