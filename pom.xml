@@ -112,6 +112,9 @@
         <osgi-utils-version>1.1.1.20251022_091331_32e8ad08_develop</osgi-utils-version>
         <karaf-features-version>2.0.2.20251022_061140_127091e3_develop</karaf-features-version>
 
+        <!-- Zeta Validation Framework -->
+        <judo-zeta-version>1.0.0.20251215_001216_39824811_feature_JNG_6349_AddZetaValidatiob</judo-zeta-version>
+
         <!-- Define overridable properties for tycho-surefire-plugin -->
         <platformSystemProperties />
         <moduleProperties />
@@ -744,6 +747,23 @@
                 <artifactId>hu.blackbelt.judo.meta.expression.psm.model.test</artifactId>
                 <version>${project.version}</version>
                 <scope>test</scope>
+            </dependency>
+
+            <!-- Zeta Validation Framework -->
+            <dependency>
+                <groupId>hu.blackbelt.judo.zeta</groupId>
+                <artifactId>hu.blackbelt.judo.zeta.validation-core</artifactId>
+                <version>${judo-zeta-version}</version>
+            </dependency>
+            <dependency>
+                <groupId>hu.blackbelt.judo.zeta</groupId>
+                <artifactId>hu.blackbelt.judo.zeta.annotations</artifactId>
+                <version>${judo-zeta-version}</version>
+            </dependency>
+            <dependency>
+                <groupId>hu.blackbelt.judo.zeta</groupId>
+                <artifactId>hu.blackbelt.judo.zeta.common</artifactId>
+                <version>${judo-zeta-version}</version>
             </dependency>
         </dependencies>
     </dependencyManagement>
