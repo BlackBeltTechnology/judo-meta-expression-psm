@@ -56,14 +56,19 @@
 - [x] 8.2 Document Zeta integration pattern
 
 ## 9. Verification
-- [x] 9.1 Run full build: `./mvnw clean install` - Compilation passes
-- [x] 9.2 Run performance tests: `./mvnw test -Dgroups=performance` - EVL evaluator context now injected correctly
-- [~] 9.3 Verify OSGi tests pass - OSGi container startup issues (unrelated to code changes)
-- [x] 9.4 Verify EVL and Java validators produce identical results - Both validators return same constraint names (e.g., `MeasureOfAdditionIsValid`)
+- [x] 9.1 Run full build: `./mvnw clean install` - All modules pass
+- [x] 9.2 Run performance tests: `./mvnw test -Dgroups=performance` - All 4 benchmarks pass
+- [x] 9.3 Verify OSGi tests pass - 2/2 tests pass (Karaf container with Zeta bundles)
+- [x] 9.4 Verify EVL and Java validators produce identical results - Both validators return same constraint names
 
-**Status:** Implementation complete. All unit tests pass (6/6 tests). OSGi integration tests fail due to Karaf container startup issues unrelated to our code changes.
+**Status:** Implementation complete. All tests pass:
+- Unit tests: 6/6 pass
+- Performance tests: 4/4 pass
+- OSGi integration tests: 2/2 pass
+- Full build: SUCCESS
 
 **Notes:**
-- The `evaluator` context is now correctly injected into the EVL execution context via `AbstractExpressionPsmValidationTest.runEvlValidation()`
+- The `evaluator` context is correctly injected into the EVL execution context
 - Both EVL and Zeta validators use the same constraint names (e.g., `MeasureOfAdditionIsValid`)
-- The dual validation test infrastructure works correctly with parameterized tests running both validators
+- OSGi test-features.xml updated with epsilon repositories and Zeta bundles
+- The dual validation test infrastructure works correctly with parameterized tests
