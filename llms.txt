@@ -1,0 +1,37 @@
+# JUDO Expression PSM Adapter
+
+> Bridges the JUDO Expression Language to the Platform Specific Model (PSM) metamodel, enabling expression type resolution, attribute/reference navigation, measurement support, and validation against PSM-defined schemas.
+
+Key facts:
+- Java 21, Maven with Eclipse Tycho 4.0.13 (hybrid OSGi/standard modules)
+- 5 modules: 1 core adapter, 2 test modules, 1 Eclipse feature, 1 P2 update site
+- Built on Eclipse EMF (Ecore), Epsilon Runtime, and Apache Karaf 4.4.7
+- Core dependencies: judo-meta-expression, judo-meta-psm, judo-meta-measure metamodels
+- All production code in 3 classes: PsmModelAdapter, PsmMeasureProvider, ExpressionValidatorOnPsm
+- License: Eclipse Public License 2.0 (EPL-2.0)
+
+## Docs
+
+- [README.md](README.md): Project overview, architecture diagrams, build instructions
+- [AGENTS.md](AGENTS.md): Developer guide with directory structure, build commands, and coding conventions
+- [CONTRIBUTING.md](CONTRIBUTING.md): Contribution guidelines, dependency rules, and workflow
+
+## Modules — Core
+
+- [adapter-psm/META-INF/MANIFEST.MF](adapter-psm/META-INF/MANIFEST.MF): Core adapter (eclipse-plugin) — type resolution, attribute/reference navigation, measure support, transfer object mapping, expression validation
+
+## Modules — Testing
+
+- [adapter-psm-test/pom.xml](adapter-psm-test/pom.xml): JUnit 5 unit and integration tests for adapter methods, measure support, and expression validation
+- [osgi-itest/pom.xml](osgi-itest/pom.xml): OSGi integration tests running in a live Karaf 4.4.7 container via Pax Exam
+
+## Modules — Packaging
+
+- [feature-adapter-psm/feature.xml](feature-adapter-psm/feature.xml): Eclipse feature packaging — bundles the adapter plugin for P2 distribution
+- [site/category.xml](site/category.xml): Eclipse P2 update site repository with category descriptor
+
+## Optional
+
+- [.github/CIFLOW.md](.github/CIFLOW.md): Branching strategy and CI/CD workflow documentation
+- [LICENSE.txt](LICENSE.txt): Eclipse Public License 2.0 license text
+- [pom.xml](pom.xml): Root Maven POM — version properties, dependency management, profiles
