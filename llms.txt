@@ -32,18 +32,18 @@ Key facts:
 
 ## Depends on
 
-- [judo-meta-expression](../judo-meta-expression): models/judo-meta-expression
-- [judo-meta-jql](../judo-meta-jql): models/judo-meta-jql
-- [judo-meta-measure](../judo-meta-measure): models/judo-meta-measure
-- [judo-meta-psm](../judo-meta-psm): models/judo-meta-psm
-- [osgi-utils](../../runtime/osgi-utils): runtime/osgi-utils
-- [epsilon-runtime](../../tools/epsilon-runtime): tools/epsilon-runtime
+- [judo-meta-expression](../judo-meta-expression): Expression metamodel — type-safe numeric, string, temporal, and collection expressions
+- [judo-meta-jql](../judo-meta-jql): JQL metamodel — Xtext-based declarative query language
+- [judo-meta-measure](../judo-meta-measure): SI units metamodel — measures, units, and conversion rates
+- [judo-meta-psm](../judo-meta-psm): PSM metamodel — foundational platform-specific data model
+- [osgi-utils](../../runtime/osgi-utils): OSGi utility library — lifecycle tracking, config monitoring, ranked services
+- [epsilon-runtime](../../tools/epsilon-runtime): Eclipse Epsilon runtime for Maven and OSGi environments
 
 ## Used by
 
-- [judo-meta-expression](../judo-meta-expression): models/judo-meta-expression
-- [judo-tatami](../../runtime/judo-tatami): runtime/judo-tatami
-- [judo-tatami-base](../../runtime/judo-tatami-base): runtime/judo-tatami-base
+- [judo-meta-expression](../judo-meta-expression): Expression metamodel — type-safe numeric, string, temporal, and collection expressions
+- [judo-tatami](../../runtime/judo-tatami): Model transformation pipeline — ESM/PSM to deployable application artifacts
+- [judo-tatami-base](../../runtime/judo-tatami-base): PSM transformation pipeline — models to schemas, expressions, and configurations
 
 ## Optional
 
