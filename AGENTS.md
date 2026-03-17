@@ -1,196 +1,183 @@
-<!-- OPENSPEC:START -->
-# OpenSpec Instructions
-
-These instructions are for AI assistants working in this project.
-
-Always open `@/openspec/AGENTS.md` when the request:
-- Mentions planning or proposals (words like proposal, spec, change, plan)
-- Introduces new capabilities, breaking changes, architecture shifts, or big performance/security work
-- Sounds ambiguous and you need the authoritative spec before coding
-
-Use `@/openspec/AGENTS.md` to learn:
-- How to create and apply change proposals
-- Spec format and conventions
-- Project structure and guidelines
-
-Keep this managed block so 'openspec update' can refresh the instructions.
-
-<!-- OPENSPEC:END -->
-
-# Judo Expression PSM Adapter - Project Documentation
+# JUDO Expression PSM Adapter - Project Documentation
 
 ## Project Overview
+
 
 **Repository:** BlackBeltTechnology/judo-meta-expression-psm
 **License:** Eclipse Public License 2.0 (EPL-2.0)
 **Java Version:** 21
-**Build System:** Maven 3.9.4+ with Tycho (Eclipse build tooling)
+**Build System:** Maven with Eclipse Tycho 4.0.13 (hybrid OSGi/standard modules)
 
-This is an Eclipse/Tycho-based adapter project that:
-1. **Adapts** PSM (Platform Service Model) models for use with JUDO Expression Language
-2. **Provides** measure support and type mappings between Expression and PSM metamodels
-3. **Includes** JQL (Judo Query Language) expression builder integration
-4. **Supports** dual validation testing (EVL and Java/Zeta validators)
-5. **Distributes** via both Maven Central and Eclipse P2 repositories
+1. Bridges the JUDO Expression Language to the PSM (Platform Specific Model) metamodel, enabling expression type resolution, attribute/reference navigation, and validation against PSM-defined schemas
+2. Provides measurement and unit support (dimensional analysis, unit conversions, derived measures) through a dedicated measure provider
+3. Packages as an OSGi bundle (Eclipse plugin) with full Karaf container deployment support via P2 update site
+4. Part of the JUDO framework by BlackBelt Technology — works alongside `judo-meta-expression`, `judo-meta-psm`, and `judo-meta-measure` metamodel projects
+
+## Code Instructions
+
+1. First think through the problem, read the codebase for relevant files.
+2. Before you make any major changes, check in with me and I will verify the plan.
+3. Please every step of the way just give me a high level explanation of what changes you made.
+4. Make every task and code change you do as simple as possible. We want to avoid making any massive or complex changes. Every change should impact as little code as possible. Everything is about simplicity.
+5. Maintain a documentation file that describes how the architecture of the app works inside and out.
+6. Never speculate about code you have not opened. If the user references a specific file, you MUST read the file before answering. Make sure to investigate and read relevant files BEFORE answering questions about the codebase. Never make any claims about code before investigating unless you are certain of the correct answer - give grounded and hallucination-free answers.
+7. For implementation use TDD (Test-Driven Development): write or update tests first to define the expected behaviour, verify they fail, then write the minimal implementation to make them pass.
+8. Use DRY (Don't Repeat Yourself): extract reusable logic into separate classes, utilities, or components. If the same pattern appears in multiple places, refactor it into a shared helper.
 
 ## Directory Structure
 
 ```
-judo-meta-expression-psm/
-├── adapter-psm/                    # Core PSM adapter implementation
-├── adapter-psm-test/               # Test utilities and validation tests
-├── builder-jql-psm-test/           # JQL builder tests
-├── feature-adapter-psm/            # Eclipse feature packaging
-├── feature-builder-jql-psm/        # JQL builder feature
-├── osgi-itest/                     # OSGi integration tests (Pax Exam)
-├── site/                           # P2 update site
-├── docs/                           # Documentation
-│   └── validation/                 # Validation testing documentation
-└── openspec/                       # OpenSpec change management
+├── adapter-psm/                  # Core implementation (eclipse-plugin)
+│   ├── META-INF/MANIFEST.MF      # OSGi bundle manifest
+│   └── src/main/java/             # 3 production classes
+├── adapter-psm-test/             # Unit & integration tests (jar)
+│   └── src/test/java/             # 11 test classes
+├── feature-adapter-psm/          # Eclipse feature packaging
+│   └── feature.xml                # Feature descriptor
+├── osgi-itest/                   # OSGi integration tests (Karaf/Pax Exam)
+│   ├── src/test/java/             # Karaf container tests
+│   └── src/test/resources/        # test-features.xml, logback config
+├── site/                         # Eclipse P2 update site
+│   └── category.xml              # Site category descriptor
+├── .github/                      # CI workflows and templates
+│   ├── CIFLOW.md                 # Branching and CI/CD documentation
+│   └── ISSUE_TEMPLATE/           # Bug, feature, docs templates
+├── pom.xml                       # Root POM (parent for all modules)
+├── CONTRIBUTING.md               # Contribution guidelines
+└── README.md                     # Project overview
 ```
 
 ## Core Modules
 
-| Module | Type | Purpose |
-|--------|------|---------|
-| `adapter-psm/` | eclipse-plugin | Core PSM adapter: PsmModelAdapter, PsmMeasureProvider, ExpressionValidatorOnPsm |
-| `adapter-psm-test/` | bundle | Test utilities and dual validation test infrastructure |
-| `builder-jql-psm-test/` | bundle | JQL expression builder tests |
-| `feature-adapter-psm/` | eclipse-feature | Eclipse feature packaging |
-| `osgi-itest/` | bundle | Pax Exam integration tests for Karaf container |
-| `site/` | eclipse-repository | P2 update site assembly |
+### Implementation Layer
 
-## Key Components
+| Module | Type | Artifact ID | Purpose |
+|--------|------|-------------|---------|
+| `adapter-psm/` | eclipse-plugin | `hu.blackbelt.judo.meta.expression.model.adapter.psm` | Core adapter implementing `ModelAdapter` interface — type resolution, attribute/reference navigation, measure support, transfer object mapping, expression validation |
 
-### Adapter Classes (adapter-psm module)
+### Test Layer
 
-| Class | Purpose |
-|-------|---------|
-| `PsmModelAdapter` | Adapts PSM models for expression processing |
-| `PsmMeasureProvider` | Provides measure support for PSM models |
-| `ExpressionValidatorOnPsm` | Validates expressions on PSM models with EVL and Zeta support |
+| Module | Type | Artifact ID | Purpose |
+|--------|------|-------------|---------|
+| `adapter-psm-test/` | jar | `hu.blackbelt.judo.meta.expression.psm.model.test` | JUnit 5 unit tests for adapter methods, measure support, dimensions, and expression validation |
+| `osgi-itest/` | jar | `hu.blackbelt.judo.meta.expression.psm.osgi.test` | OSGi integration tests running in a live Karaf 4.4.7 container via Pax Exam |
 
-### Validation Test Infrastructure (adapter-psm-test module)
+### Packaging Layer
 
-| Class | Purpose |
-|-------|---------|
-| `ValidatorType` | Enum for selecting EVL or Java validator |
-| `AbstractExpressionPsmValidationTest` | Base class for dual validation tests |
-| `ExpressionPsmValidationTest` | Dual validation test cases |
-| `ExpressionPsmValidationPerformanceTest` | Performance comparison tests |
-| `PsmTestModelGenerator` | Generates test models for performance benchmarks |
-
-## Validation Architecture
-
-This project imports and executes validators from [judo-meta-expression](https://github.com/BlackBeltTechnology/judo-meta-expression):
-
-- **EVL Validation:** `ExpressionValidator.validateExpression()` - Epsilon Validation Language
-- **Java/Zeta Validation:** `ExpressionZetaValidator.validateExpression()` - Zeta validation framework
-
-**No validators are implemented in this project** - only test infrastructure and adapter wrappers.
-
-### Validation Entry Points
-
-```java
-// EVL validation (default)
-ExpressionValidatorOnPsm.validateExpressionOnPsm(log, psmModel, expressionModel);
-
-// Java/Zeta validation
-ExpressionValidatorOnPsm.validateExpressionOnPsmWithZeta(log, psmModel, expressionModel);
-```
-
-### Dual Validation Testing
-
-Tests run with both EVL and Java validators to ensure parity:
-
-```java
-@ParameterizedTest(name = "testValidation [{0}]")
-@EnumSource(ValidatorType.class)
-void testValidation(ValidatorType type) throws Exception {
-    this.validatorType = type;
-    initModels();
-
-    runValidation(
-        ImmutableList.of(),  // expected errors
-        ImmutableList.of()   // expected warnings
-    );
-}
-```
+| Module | Type | Artifact ID | Purpose |
+|--------|------|-------------|---------|
+| `feature-adapter-psm/` | eclipse-feature | `hu.blackbelt.judo.meta.expression.adapter.psm.feature` | Bundles the adapter plugin into an Eclipse feature for P2 distribution |
+| `site/` | eclipse-repository | `hu.blackbelt.judo.meta.expression.psm.site` | Builds the Eclipse P2 update site repository |
 
 ## Technology Stack
 
 ### Core Technologies
-- **Eclipse Modeling Framework (EMF)** 2.38.0+ - Metamodel foundation
-- **Ecore** - Model definition language
-- **Tycho** 4.0.13 - Eclipse plugin build
-- **Epsilon** 2.8.0 - Model validation (EVL)
-- **Zeta Framework** 1.0.0 - Java validation framework
+- **Eclipse EMF** (Ecore 2.21+) — metamodel framework for Expression, PSM, and Measure models
+- **Eclipse Tycho 4.0.13** — builds eclipse-plugin and eclipse-feature modules as OSGi bundles
+- **Epsilon Runtime** — model validation and transformation engine
+- **OSGi Framework** (1.8+) — runtime module system for the adapter bundle
+- **Apache Karaf 4.4.7** — OSGi container for integration testing
 
-### Dependencies
-- **judo-meta-expression** - Expression metamodel and validators
-- **judo-meta-psm** - Platform Service Model metamodel
-- **judo-meta-jql** - JQL metamodel
-- **judo-meta-measure** - Measure metamodel
-- **judo-zeta** - Zeta validation framework
+### Build & Quality
+- **Maven** with CI-friendly versioning (`${revision}` = 1.0.5-SNAPSHOT)
+- **JUnit 5** — unit testing framework
+- **Pax Exam 4.13.5** — Karaf container test framework
+- **JaCoCo 0.8.12** — code coverage
+- **Maven Surefire 3.5.1** — test execution
+- **SLF4J 2.0.16** + **Logback 1.5.12** — logging
 
-### Runtime
-- **Apache Karaf** 4.4.7 - OSGi container
-- **Pax Exam** 4.13.5 - OSGi testing
+### Key JUDO Dependencies
+- `hu.blackbelt.judo.meta.expression.model` — Expression language metamodel
+- `hu.blackbelt.judo.meta.psm.model` — PSM metamodel (EntityType, Primitive, Measure, etc.)
+- `hu.blackbelt.judo.meta.measure.model` — Measurement/unit metamodel
+- `hu.blackbelt.judo.meta.expression.model.adapter.measure` — Measure adapter bridge
+- `hu.blackbelt.epsilon:epsilon-runtime-execution` — Epsilon runtime
 
 ## Build Commands
 
+> **Note:** Use SDKMAN! (`sdk`) to manage Java versions. Requires JDK 21+ and Maven 3.9.9+.
+
 ```bash
-# Standard build
+# Full build (all modules)
+mvn clean install
+
+# Build without tests
+mvn clean install -DskipTests
+
+# Run unit tests only (adapter-psm-test module)
+mvn test -pl adapter-psm-test
+
+# Run a specific test class
+mvn test -pl adapter-psm-test -Dtest=PsmModelAdapterTest
+
+# Run a specific test method
+mvn test -pl adapter-psm-test -Dtest=PsmModelAdapterTest#testGetTypeName
+
+# Run OSGi integration tests (starts Karaf container)
+mvn test -pl osgi-itest
+
+# Use Maven wrapper (if available)
 ./mvnw clean install
-
-# Skip tests
-./mvnw clean install -DskipTests
-
-# Run performance tests
-./mvnw test -Dgroups=performance
-
-# Memory requirements (configured in .mvn/jvm.config)
-# -Xms1024m -Xmx2048m
 ```
+
+Build is successful when the output contains `[INFO] BUILD SUCCESS` with no `[ERROR]` lines.
 
 ### Maven Profiles
 
 | Profile | Purpose |
 |---------|---------|
-| `modules` | Includes all submodules (default) |
-| `sign-artifacts` | GPG signing for release |
-| `release-central` | Maven Central deployment |
-| `release-judong` | Internal Judo repository |
+| `modules` | **Default** — builds all 5 modules (active unless `-DskipModules=true`) |
+| `sign-artifacts` | GPG-signs artifacts for release using simplify4u sign-maven-plugin |
+| `release-dummy` | Test release to `/tmp` (file-based distribution) |
+| `release-judong` | Deploy to JUDO.technology Nexus (staging) |
+| `release-central` | Deploy to Maven Central via Sonatype OSSRH (auto-close enabled) |
+| `generate-github-asciidoc-diagrams` | Generate documentation with Asciidoctor + PlantUML/Graphviz |
+| `update-source-code-license` | Inject EPL-2.0 license headers into source files |
 
 ## Key Configuration Files
 
 | File | Purpose |
 |------|---------|
-| `pom.xml` | Parent POM with module definitions and Zeta version |
-| `.mvn/jvm.config` | JVM arguments for Maven build |
-| `adapter-psm/META-INF/MANIFEST.MF` | OSGi bundle manifest |
+| `pom.xml` | Root Maven POM — version properties, dependency management, profiles, plugin config |
+| `adapter-psm/META-INF/MANIFEST.MF` | OSGi bundle manifest — exported packages, required bundles, import packages |
+| `feature-adapter-psm/feature.xml` | Eclipse feature descriptor — plugin and dependency declarations |
+| `osgi-itest/src/test/resources/test-features.xml` | Karaf feature definition for OSGi integration tests |
+| `site/category.xml` | P2 update site category descriptor |
+| `logback-test.xml` | Test logging configuration |
+| `CONTRIBUTING.md` | Coding guidelines, dependency rules, contribution workflow |
 
 ## Development Environment
 
 **Required:**
-- Java 21 JDK
-- Maven 3.9.4+ (or use ./mvnw wrapper)
+- Java 21 JDK (manage with SDKMAN!: `sdk use java 21.x.y-tem`)
+- Maven 3.9.9+
+- Git
 
-**Optional:**
-- Eclipse IDE with m2e and OSGi plugins
-- IntelliJ IDEA with Maven and OSGi plugins
+**Recommended:**
+- IDE with Tycho/OSGi support (Eclipse IDE or IntelliJ with Tycho plugin)
+- Familiarity with EMF/Ecore metamodeling concepts
 
 ## Git Workflow
 
 - **Main Branch:** `develop`
-- **Versioning:** SNAPSHOT-based development
-- **Release Process:** CI/CD with Maven Central and P2 deployment
+- **Stable Branch:** `master` (latest released version)
+- **Versioning:** Semantic versioning via `${revision}` property (currently 1.0.5-SNAPSHOT)
+- **Branch naming:** `feature/JNG-NUMBER_summary`, `bugfix/JNG-NUMBER_summary`, `release/X.Y.Z`
+- **Commit format:** Conventional Commits (`feat:`, `fix:`, `refactor:`, `test:`, `docs:`)
+- **Rule:** Every commit must reference a JIRA ticket (`JNG-xxx`)
+- **CI/CD:** GitHub Actions — see [CIFLOW.md](.github/CIFLOW.md) for workflow details
+
+## Important Notes
+
+1. This project is a **consumer** of EMF metamodels — it contains no `.ecore` or `.genmodel` files. The Expression, PSM, and Measure metamodels are external dependencies.
+2. The `adapter-psm` module uses **eclipse-plugin** packaging (Tycho). Dependencies between Tycho modules use `MANIFEST.MF` `Require-Bundle`/`Import-Package`, not POM `<dependency>` blocks.
+3. All production code is in a **single package** (`hu.blackbelt.judo.meta.expression.adapters.psm`) with only 3 classes: `PsmModelAdapter`, `PsmMeasureProvider`, and `ExpressionValidatorOnPsm`.
+4. Do NOT modify build configuration files (`pom.xml`, `feature.xml`, `MANIFEST.MF`, `category.xml`) without explicit approval — these affect artifact wiring and OSGi bundle resolution.
+5. The OSGi integration tests (`osgi-itest`) spin up a real Karaf 4.4.7 container — they are slower and require network access for feature resolution.
+6. Code style: 4-space indentation, opening brace on same line, JavaDoc on all public APIs.
 
 ## Related Documentation
 
-- `docs/validation/README.md` - Validation testing overview
-- `openspec/AGENTS.md` - OpenSpec workflow for spec-driven development
-- `openspec/project.md` - Project conventions for OpenSpec
-- [Zeta Framework Documentation](https://github.com/BlackBeltTechnology/judo-zeta) - Java validation framework
-- [judo-meta-expression](https://github.com/BlackBeltTechnology/judo-meta-expression) - Expression metamodel
-- [judo-meta-psm](https://github.com/BlackBeltTechnology/judo-meta-psm) - PSM metamodel
+- [README.md](README.md) — Project overview with architecture diagrams
+- [CONTRIBUTING.md](CONTRIBUTING.md) — Coding guidelines, dependency rules, LLM contribution workflow
+- [.github/CIFLOW.md](.github/CIFLOW.md) — Branching strategy and CI/CD workflow documentation
