@@ -215,7 +215,12 @@ public class ExpressionWithPSMAdapterBundleITest {
 
     @Test
     public void testModelValidation() throws Exception {
-        validateExpressionOnPsm(log, psmModel, expressionModel);
+        // The test model intentionally contains an invalid expression (1[kg] + 10)
+        // which should produce a MeasureOfAdditionIsValid validation error
+        // EVL uses full key format: "ConstraintName|Error message"
+        validateExpressionOnPsm(log, psmModel, expressionModel,
+                ImmutableList.of("MeasureOfAdditionIsValid|Measures of addition are not matching: (1[kg] + 10)"),
+                ImmutableList.of());
     }
 
 
