@@ -30,13 +30,46 @@ import java.util.Collection;
 
 import static java.util.Collections.emptyList;
 
+/**
+ * Entry point for Expression model validation on PSM models.
+ *
+ * <p>This class provides methods to validate Expression models using
+ * EVL (Epsilon Validation Language). For Java/Zeta validation, use the
+ * ExpressionZetaValidator directly from the test module.</p>
+ *
+ * <p>Example usage:</p>
+ * <pre>{@code
+ * // EVL validation
+ * ExpressionValidatorOnPsm.validateExpressionOnPsm(log, psmModel, expressionModel);
+ * }</pre>
+ *
+ * @see ExpressionValidator
+ */
 public class ExpressionValidatorOnPsm {
 
+    /**
+     * Validate Expression model on PSM using EVL validation.
+     *
+     * @param log the logger
+     * @param psmModel the PSM model
+     * @param expressionModel the Expression model to validate
+     * @throws ExpressionValidationException if validation fails
+     */
     public static void validateExpressionOnPsm(Logger log, PsmModel psmModel, ExpressionModel expressionModel)
             throws ExpressionValidationException {
         validateExpressionOnPsm(log, psmModel, expressionModel, emptyList(), emptyList());
     }
 
+    /**
+     * Validate Expression model on PSM using EVL validation with expected results.
+     *
+     * @param log the logger
+     * @param psmModel the PSM model
+     * @param expressionModel the Expression model to validate
+     * @param expectedErrors expected error constraint names
+     * @param expectedWarnings expected warning constraint names
+     * @throws ExpressionValidationException if validation fails
+     */
     public static void validateExpressionOnPsm(Logger log, PsmModel psmModel, ExpressionModel expressionModel,
                                                Collection<String> expectedErrors, Collection<String> expectedWarnings)
             throws ExpressionValidationException {
