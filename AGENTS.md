@@ -145,7 +145,7 @@ let a whole reactor run and report every failure at the end use `-fae`.
 - `hu.blackbelt.judo.meta.psm.model` `1.3.0-SNAPSHOT` — the PSM metamodel being adapted (`data`, `service`, `derived`, `measure`, `namespace`, `type`, `accesspoint` packages plus `PsmUtils`, `PsmModel`)
 - `hu.blackbelt.judo.meta.measure.model` `1.0.2-SNAPSHOT` — the standalone measurement/unit metamodel
 - `hu.blackbelt.judo.meta.expression.model.adapter.measure` — the measure adapter bridge
-- `hu.blackbelt.epsilon:epsilon-runtime-execution` — Epsilon runtime
+- `hu.blackbelt.epsilon:epsilon-runtime-execution` — Epsilon runtime; `provided` scope in `adapter-psm/pom.xml` (adapter has no Epsilon code). See change: split-etl-artifacts.
 
 ## Architecture pointers
 
